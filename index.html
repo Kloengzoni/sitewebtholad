@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tholad Group – Immobilier & Location</title>
+<link rel="icon" type="image/png" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────
+   VARIABLES
+───────────────────────────────── */
+:root {
+  --orange:      #FF6600;
+  --orange2:     #FF8533;
+  --navy:        #040D1E;
+  --navy2:       #071428;
+  --white:       #FFFFFF;
+  --text:        #1a1a2e;
+  --text-light:  #5A6580;
+  --bg:          #FFFFFF;
+  --bg2:         #F5F7FA;
+  --bg3:         #EEF1F7;
+  --border:      rgba(0,0,50,0.1);
+  --shadow:      0 4px 24px rgba(0,0,50,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ─────────────────────────────────
+   PRELOADER
+───────────────────────────────── */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--navy);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  transition: opacity 0.7s, visibility 0.7s;
+}
+#preloader.done { opacity: 0; visibility: hidden; }
+
+.pre-logo { height: 70px; animation: preLogoIn 0.6s ease forwards; opacity: 0; }
+@keyframes preLogoIn { to { opacity: 1; transform: scale(1); } from { opacity: 0; transform: scale(0.7); } }
+
+.pre-letters {
+  display: flex;
+  gap: 4px;
+}
+.pre-letter {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--orange);
+  opacity: 0;
+  transform: translateY(16px);
+  animation: preIn 0.4s forwards;
+}
+.pre-letter:nth-child(1) { animation-delay: 0.3s; }
+.pre-letter:nth-child(2) { animation-delay: 0.42s; }
+.pre-letter:nth-child(3) { animation-delay: 0.54s; }
+.pre-letter:nth-child(4) { animation-delay: 0.66s; }
+.pre-letter:nth-child(5) { animation-delay: 0.78s; }
+.pre-letter:nth-child(6) { animation-delay: 0.9s; color: #fff; }
+.pre-sub {
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  opacity: 0;
+  animation: preIn 0.4s 1.1s forwards;
+}
+@keyframes preIn { to { opacity: 1; transform: translateY(0); } }
+
+/* ─────────────────────────────────
+   TOP BAR
+───────────────────────────────── */
+.topbar {
+  background: var(--navy2);
+  padding: 8px 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: #8A9BB5;
+}
+.topbar a { color: #8A9BB5; text-decoration: none; transition: color 0.2s; }
+.topbar a:hover { color: var(--orange); }
+.topbar-left { display: flex; gap: 24px; align-items: center; }
+.topbar-right { display: flex; gap: 20px; align-items: center; }
+.topbar-icon { color: var(--orange); margin-right: 5px; }
+
+/* ─────────────────────────────────
+   NAVBAR
+───────────────────────────────── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.12); }
+
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo img { height: 48px; object-fit: contain; }
+
+.nav-menu { display: flex; align-items: center; list-style: none; gap: 4px; }
+.nav-item { position: relative; }
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 16px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+.nav-link:hover, .nav-link.active { color: var(--orange); background: rgba(255,102,0,0.06); }
+.nav-arrow { font-size: 0.6rem; opacity: 0.5; transition: transform 0.2s; }
+.nav-item:hover .nav-arrow { transform: rotate(180deg); }
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  min-width: 200px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s;
+  z-index: 100;
+  overflow: hidden;
+}
+.nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.dropdown a {
+  display: block;
+  padding: 11px 20px;
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  border-bottom: 1px solid var(--border);
+}
+.dropdown a:last-child { border-bottom: none; }
+.dropdown a:hover { color: var(--orange); background: rgba(255,102,0,0.04); padding-left: 26px; }
+
+.nav-cta-btn {
+  background: var(--orange) !important;
+  color: #fff !important;
+  padding: 10px 22px !important;
+  border-radius: 4px;
+  font-weight: 700 !important;
+}
+.nav-cta-btn:hover { background: var(--orange2) !important; transform: translateY(-1px); color: #fff !important; }
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+
+/* ─────────────────────────────────
+   HERO SLIDER
+───────────────────────────────── */
+.hero { position: relative; height: 88vh; min-height: 560px; overflow: hidden; }
+
+.slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; display: flex; align-items: center; }
+.slide.active { opacity: 1; }
+
+.slide-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.06);
+  transition: transform 8s ease;
+}
+.slide.active .slide-bg { transform: scale(1); }
+
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(4,13,30,0.88) 0%, rgba(4,13,30,0.55) 60%, rgba(4,13,30,0.2) 100%);
+}
+
+.slide-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 5vw;
+  max-width: 700px;
+}
+
+.slide-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--orange);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  margin-bottom: 24px;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+}
+
+.slide-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.08;
+  color: #fff;
+  margin-bottom: 20px;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.slide-title .hl { color: var(--orange); }
+
+.slide-desc {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 36px;
+}
+
+.slide-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn-orange {
+  background: var(--orange);
+  color: #fff;
+  padding: 14px 32px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  transition: all 0.25s;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+}
+.btn-orange:hover { background: #e55c00; transform: translateX(4px); box-shadow: 0 10px 30px rgba(255,102,0,0.35); }
+
+.btn-ghost {
+  background: transparent;
+  color: #fff;
+  padding: 13px 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 2px solid rgba(255,255,255,0.4);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  transition: all 0.25s;
+}
+.btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+
+.slider-nav { position: absolute; bottom: 40px; left: 5vw; z-index: 10; display: flex; align-items: center; gap: 20px; }
+.slider-dots { display: flex; gap: 8px; }
+.dot { width: 28px; height: 3px; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s; border-radius: 2px; }
+.dot.active { background: var(--orange); width: 48px; }
+.slider-arrows { display: flex; gap: 8px; }
+.arrow-btn {
+  width: 40px; height: 40px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  backdrop-filter: blur(6px);
+  border-radius: 2px;
+}
+.arrow-btn:hover { background: var(--orange); border-color: var(--orange); }
+
+/* ─────────────────────────────────
+   STATS BAR
+───────────────────────────────── */
+.stats-bar {
+  background: var(--orange);
+  padding: 0 5vw;
+  display: flex;
+}
+.stat-item {
+  flex: 1;
+  padding: 22px 30px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+.stat-item:last-child { border-right: none; }
+.stat-icon { font-size: 1.6rem; }
+.stat-num { font-family: 'Raleway', sans-serif; font-size: 1.6rem; font-weight: 900; line-height: 1; color: #fff; }
+.stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.85); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 2px; }
+
+/* ─────────────────────────────────
+   SEARCH
+───────────────────────────────── */
+.search-section {
+  background: var(--bg3);
+  padding: 40px 5vw;
+  border-bottom: 1px solid var(--border);
+}
+.search-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.search-title::before { content: ''; display: inline-block; width: 24px; height: 3px; background: var(--orange); }
+.search-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+}
+.s-group { flex: 1; min-width: 150px; }
+.s-group label { display: block; font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-light); margin-bottom: 6px; font-weight: 700; }
+.s-group select, .s-group input {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.84rem;
+  outline: none;
+  border-radius: 4px;
+  appearance: none;
+  transition: border-color 0.2s;
+}
+.s-group select:focus, .s-group input:focus { border-color: var(--orange); }
+.s-divider { width: 1px; height: 50px; background: var(--border); align-self: center; }
+.search-go {
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  padding: 11px 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s, transform 0.2s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.search-go:hover { background: #e55c00; transform: translateX(3px); }
+
+/* ─────────────────────────────────
+   SECTION COMMONS
+───────────────────────────────── */
+section { padding: 90px 5vw; }
+
+.sec-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--orange);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.sec-tag::before { content: ''; width: 28px; height: 3px; background: var(--orange); display: inline-block; }
+
+.sec-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.sec-title em { font-style: normal; color: var(--orange); }
+
+.sec-sub { color: var(--text-light); font-size: 0.9rem; line-height: 1.7; max-width: 560px; }
+
+.sec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.link-all {
+  color: var(--orange);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--orange);
+  padding-bottom: 2px;
+  transition: gap 0.2s;
+  white-space: nowrap;
+}
+.link-all:hover { gap: 14px; }
+
+/* ─────────────────────────────────
+   CATEGORIES
+───────────────────────────────── */
+#categories { background: var(--bg2); }
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+.cat-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 36px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.cat-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+.cat-item:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(255,102,0,0.15); border-color: var(--orange); }
+.cat-item:hover::after { transform: scaleX(1); }
+.cat-icon { font-size: 2.4rem; display: block; margin-bottom: 12px; transition: transform 0.3s; }
+.cat-item:hover .cat-icon { transform: scale(1.2); }
+.cat-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 5px; color: var(--text); }
+.cat-count { font-size: 0.73rem; color: var(--orange); font-weight: 700; }
+
+/* ─────────────────────────────────
+   PROPERTIES
+───────────────────────────────── */
+#properties { background: var(--white); }
+
+.prop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+.prop-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+.prop-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--orange);
+  box-shadow: 0 20px 50px rgba(255,102,0,0.15);
+}
+.prop-thumb {
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+}
+.prop-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.prop-card:hover .prop-thumb img { transform: scale(1.06); }
+
+.prop-status {
+  position: absolute;
+  top: 14px; left: 0;
+  background: var(--orange);
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 14px 5px 12px;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
+}
+.prop-fav {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+.prop-fav:hover { background: var(--orange); border-color: var(--orange); }
+
+.prop-body { padding: 20px; }
+.prop-cat {
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.prop-cat::before { content: ''; width: 14px; height: 2px; background: var(--orange); display: inline-block; }
+.prop-name { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 8px; line-height: 1.3; color: var(--text); }
+.prop-loc { font-size: 0.78rem; color: var(--text-light); margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
+.prop-specs {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.spec { font-size: 0.76rem; color: var(--text-light); display: flex; align-items: center; gap: 4px; }
+.prop-foot { display: flex; justify-content: space-between; align-items: center; }
+.prop-price { font-family: 'Raleway', sans-serif; font-weight: 900; font-size: 1.15rem; color: var(--text); }
+.prop-price small { font-size: 0.7rem; color: var(--text-light); font-family: 'Montserrat'; font-weight: 400; margin-left: 2px; }
+.prop-action {
+  background: transparent;
+  border: 1.5px solid var(--orange);
+  color: var(--orange);
+  padding: 7px 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  border-radius: 3px;
+}
+.prop-action:hover { background: var(--orange); color: #fff; }
+
+/* ─────────────────────────────────
+   GALLERY SECTION
+───────────────────────────────── */
+#gallery { background: var(--bg2); }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 200px 200px;
+  gap: 12px;
+}
+.gallery-item {
+  overflow: hidden;
+  border-radius: 8px;
+  position: relative;
+  cursor: pointer;
+}
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.gallery-item:hover img { transform: scale(1.08); }
+.gallery-item.large { grid-column: span 2; grid-row: span 2; }
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,102,0,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+.gallery-item:hover .gallery-overlay { background: rgba(255,102,0,0.2); }
+.gallery-overlay span { color: #fff; font-size: 2rem; opacity: 0; transition: opacity 0.3s; }
+.gallery-item:hover .gallery-overlay span { opacity: 1; }
+
+/* ─────────────────────────────────
+   ABOUT / WHY
+───────────────────────────────── */
+#about { background: var(--white); }
+
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+
+.about-visual { position: relative; }
+.about-main-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,50,0.15);
+}
+.about-badge {
+  position: absolute;
+  bottom: -20px; right: 30px;
+  background: var(--orange);
+  color: #fff;
+  padding: 16px 22px;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: 0 12px 30px rgba(255,102,0,0.35);
+}
+.about-badge .bnum { font-family: 'Raleway', sans-serif; font-size: 2.2rem; font-weight: 900; line-height: 1; }
+.about-badge .btxt { font-size: 0.68rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; opacity: 0.9; }
+
+.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 36px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.about-stat { padding: 20px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; }
+.about-stat:nth-child(even) { border-right: none; }
+.about-stat:nth-child(3), .about-stat:nth-child(4) { border-bottom: none; }
+.about-stat-num { font-family: 'Raleway', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--orange); }
+.about-stat-label { font-size: 0.72rem; color: var(--text-light); font-weight: 600; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.why-list { display: flex; flex-direction: column; gap: 0; margin-top: 10px; }
+.why-row {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 18px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.why-row:hover { background: var(--bg2); border-color: var(--border); border-left-color: var(--orange); }
+.why-num { font-family: 'Raleway', sans-serif; font-size: 2rem; font-weight: 900; color: rgba(255,102,0,0.18); line-height: 1; min-width: 44px; transition: color 0.3s; }
+.why-row:hover .why-num { color: var(--orange); }
+.why-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 5px; color: var(--text); }
+.why-desc { font-size: 0.83rem; color: var(--text-light); line-height: 1.6; }
+
+/* ─────────────────────────────────
+   SERVICES
+───────────────────────────────── */
+#services { background: var(--bg2); }
+
+.services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 50px; }
+.svc-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 36px 28px;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.svc-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transition: transform 0.35s;
+}
+.svc-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(255,102,0,0.12); border-color: rgba(255,102,0,0.3); }
+.svc-card:hover::before { transform: scaleX(1); }
+.svc-icon { font-size: 2.6rem; margin-bottom: 18px; display: block; }
+.svc-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 10px; color: var(--text); }
+.svc-desc { font-size: 0.83rem; color: var(--text-light); line-height: 1.65; }
+
+/* ─────────────────────────────────
+   TESTIMONIALS
+───────────────────────────────── */
+#testimonials { background: var(--white); }
+
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.testi-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px 28px;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.testi-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,50,0.1); }
+.testi-stars { color: var(--orange); font-size: 1.1rem; margin-bottom: 16px; letter-spacing: 2px; }
+.testi-text { font-size: 0.88rem; color: var(--text-light); line-height: 1.75; margin-bottom: 22px; font-style: italic; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-av { width: 44px; height: 44px; border-radius: 50%; background: var(--orange); color: #fff; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.testi-name { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+.testi-role { font-size: 0.75rem; color: var(--text-light); margin-top: 2px; }
+
+/* ─────────────────────────────────
+   CTA BAND
+───────────────────────────────── */
+.cta-band {
+  background: linear-gradient(135deg, var(--orange) 0%, #e55c00 100%);
+  padding: 60px 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+.ctitle { font-family: 'Raleway', sans-serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 900; color: #fff; margin-bottom: 8px; }
+.csub { color: rgba(255,255,255,0.85); font-size: 0.95rem; }
+.cta-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-white {
+  background: #fff;
+  color: var(--orange);
+  padding: 14px 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.btn-white:hover { background: var(--navy); color: #fff; transform: translateY(-2px); }
+.btn-outline-white {
+  background: transparent;
+  color: #fff;
+  padding: 13px 28px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+  border: 2px solid rgba(255,255,255,0.6);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.btn-outline-white:hover { border-color: #fff; background: rgba(255,255,255,0.12); }
+
+/* ─────────────────────────────────
+   FOOTER
+───────────────────────────────── */
+footer {
+  background: var(--navy);
+  padding: 70px 5vw 0;
+  color: #8A9BB5;
+}
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px; padding-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.footer-brand img { height: 55px; object-fit: contain; margin-bottom: 18px; display: block; }
+.footer-desc { font-size: 0.86rem; color: #8A9BB5; line-height: 1.7; margin-bottom: 24px; }
+.socials { display: flex; gap: 10px; }
+.social-btn {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #8A9BB5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.social-btn:hover { background: var(--orange); border-color: var(--orange); color: #fff; }
+.f-col h4 { font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 18px; }
+.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.f-col a { color: #8A9BB5; text-decoration: none; font-size: 0.82rem; transition: color 0.2s; display: flex; align-items: center; gap: 7px; }
+.f-col a::before { content: '›'; color: var(--orange); font-weight: 700; }
+.f-col a:hover { color: var(--orange); }
+.f-contact-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+.f-contact-icon { color: var(--orange); font-size: 0.9rem; margin-top: 1px; }
+.f-contact-text { font-size: 0.82rem; color: #8A9BB5; line-height: 1.5; }
+.footer-bottom { padding: 22px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.footer-copy { font-size: 0.78rem; color: #4A5568; }
+.footer-copy span { color: var(--orange); font-weight: 700; }
+
+/* ─────────────────────────────────
+   REVEAL ANIMATIONS
+───────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.up { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.2s; }
+.d3 { transition-delay: 0.3s; }
+.d4 { transition-delay: 0.4s; }
+
+/* ─────────────────────────────────
+   RESPONSIVE
+───────────────────────────────── */
+@media (max-width: 1100px) {
+  .cat-grid { grid-template-columns: repeat(3, 1fr); }
+  .prop-grid { grid-template-columns: repeat(2, 1fr); }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual { display: none; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+  .gallery-item.large { grid-column: span 2; }
+}
+@media (max-width: 768px) {
+  .topbar { display: none; }
+  .nav-menu { display: none; }
+  .hamburger { display: flex; }
+  .prop-grid { grid-template-columns: 1fr; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-bar { flex-direction: column; }
+  .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.2); }
+  .cta-band { flex-direction: column; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .search-bar { flex-direction: column; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-item.large { grid-column: span 1; }
+}
+
+.counter { display: inline; }
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <img src="images/logo.png" class="pre-logo" alt="Tholad Group">
+  <div class="pre-letters">
+    <span class="pre-letter">T</span>
+    <span class="pre-letter">H</span>
+    <span class="pre-letter">O</span>
+    <span class="pre-letter">L</span>
+    <span class="pre-letter">A</span>
+    <span class="pre-letter">D</span>
+  </div>
+  <div class="pre-sub">Group — Immobilier & Location</div>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span><span class="topbar-icon">📧</span><a href="mailto:contact@tholadgroup.com">contact@tholadgroup.com</a></span>
+    <span><span class="topbar-icon">📍</span>Pointe-Noire, Congo</span>
+  </div>
+  <div class="topbar-right">
+    <a href="#">FAQs</a>
+    <a href="#">Espace client</a>
+    <a href="tel:+242000000000" style="color:var(--orange); font-weight:700;">+242 00 000 0000</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <img src="images/logo.png" alt="Tholad Group">
+  </a>
+  <ul class="nav-menu" id="navMenu">
+    <li class="nav-item"><a href="#" class="nav-link active">Accueil</a></li>
+    <li class="nav-item">
+      <a href="#about" class="nav-link">Qui Sommes-nous <span class="nav-arrow">▼</span></a>
+      <div class="dropdown">
+        <a href="#">Notre Société</a>
+        <a href="#">Notre Vision</a>
+        <a href="#">Notre Approche</a>
+        <a href="#">Nos Partenaires</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a href="#properties" class="nav-link">Nos Biens <span class="nav-arrow">▼</span></a>
+      <div class="dropdown">
+        <a href="#">Appartements</a>
+        <a href="#">Maisons & Villas</a>
+        <a href="#">Terrains</a>
+        <a href="#">Bureaux</a>
+        <a href="#">Salles de Réunion</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a href="#services" class="nav-link">Nos Services <span class="nav-arrow">▼</span></a>
+      <div class="dropdown">
+        <a href="#">Vente Immobilière</a>
+        <a href="#">Location Longue Durée</a>
+        <a href="#">Location Courte Durée</a>
+        <a href="#">Gestion Locative</a>
+      </div>
+    </li>
+    <li class="nav-item"><a href="#gallery" class="nav-link">Galerie</a></li>
+    <li class="nav-item"><a href="#contact" class="nav-link nav-cta-btn">Nous Contacter</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO SLIDER -->
+<div class="hero" id="hero">
+
+  <div class="slide active" id="s1">
+    <div class="slide-bg" style="background-image:url('images/appart-salon-1.jpg');"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Immobilier Premium</div>
+      <h1 class="slide-title">Votre Propriété<br><span class="hl">De Rêve</span><br>Vous Attend</h1>
+      <p class="slide-desc">Tholad Group, votre expert en immobilier et location. Appartements, maisons, terrains et espaces professionnels.</p>
+      <div class="slide-btns">
+        <a href="#properties" class="btn-orange">Voir les biens ›</a>
+        <a href="#about" class="btn-ghost">En savoir plus</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" id="s2">
+    <div class="slide-bg" style="background-image:url('images/salle-reunion-3.jpg');"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Location & Événementiel</div>
+      <h1 class="slide-title">Salles de<br><span class="hl">Réunion</span><br>Équipées</h1>
+      <p class="slide-desc">Des espaces modernes et climatisés pour vos réunions, séminaires et formations. Équipements complets inclus.</p>
+      <div class="slide-btns">
+        <a href="#properties" class="btn-orange">Réserver ›</a>
+        <a href="#contact" class="btn-ghost">Nous contacter</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" id="s4">
+    <div class="slide-bg" style="background-image:url('images/bureau-desk-1.jpg');"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Bureaux & Mobilier</div>
+      <h1 class="slide-title">Bureaux<br><span class="hl">Meublés</span><br>Prêts à l'usage</h1>
+      <p class="slide-desc">Des bureaux directoriaux et postes de travail entièrement équipés, disponibles à la location.</p>
+      <div class="slide-btns">
+        <a href="#properties" class="btn-orange">Voir les offres ›</a>
+        <a href="#services" class="btn-ghost">Nos services</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" id="s3">
+    <div class="slide-bg" style="background-image:url('images/appart-salon-2.jpg');"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Espaces de Travail</div>
+      <h1 class="slide-title">Bureaux &<br><span class="hl">Coworking</span><br>Modernes</h1>
+      <p class="slide-desc">Des espaces de travail flexibles, connectés et inspirants pour entrepreneurs et équipes professionnelles.</p>
+      <div class="slide-btns">
+        <a href="#properties" class="btn-orange">Découvrir ›</a>
+        <a href="#services" class="btn-ghost">Nos services</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="slider-nav">
+    <div class="slider-dots">
+      <div class="dot active" onclick="goSlide(0)"></div>
+      <div class="dot" onclick="goSlide(1)"></div>
+      <div class="dot" onclick="goSlide(2)"></div>
+      <div class="dot" onclick="goSlide(3)"></div>
+    </div>
+    <div class="slider-arrows">
+      <button class="arrow-btn" onclick="prevSlide()">‹</button>
+      <button class="arrow-btn" onclick="nextSlide()">›</button>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-icon">🏠</span>
+    <div>
+      <div class="stat-num"><span class="counter" data-t="850">0</span>+</div>
+      <div class="stat-label">Biens disponibles</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-icon">😊</span>
+    <div>
+      <div class="stat-num"><span class="counter" data-t="1200">0</span>+</div>
+      <div class="stat-label">Clients satisfaits</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-icon">🤝</span>
+    <div>
+      <div class="stat-num"><span class="counter" data-t="320">0</span>+</div>
+      <div class="stat-label">Transactions réalisées</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-icon">⭐</span>
+    <div>
+      <div class="stat-num"><span class="counter" data-t="12">0</span>+</div>
+      <div class="stat-label">Ans d'expertise</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-section">
+  <div class="search-title">🔍 Rechercher un bien</div>
+  <div class="search-bar">
+    <div class="s-group">
+      <label>Type de bien</label>
+      <select>
+        <option>Tous les types</option>
+        <option>Appartement</option>
+        <option>Maison / Villa</option>
+        <option>Terrain</option>
+        <option>Bureau</option>
+        <option>Salle de réunion</option>
+      </select>
+    </div>
+    <div class="s-divider"></div>
+    <div class="s-group">
+      <label>Transaction</label>
+      <select>
+        <option>Vente & Location</option>
+        <option>À vendre</option>
+        <option>À louer</option>
+        <option>Location / Jour</option>
+      </select>
+    </div>
+    <div class="s-divider"></div>
+    <div class="s-group">
+      <label>Localisation</label>
+      <input type="text" placeholder="Ville, quartier...">
+    </div>
+    <div class="s-divider"></div>
+    <div class="s-group">
+      <label>Budget</label>
+      <select>
+        <option>Tous les budgets</option>
+        <option>Moins de 200 000 FCFA</option>
+        <option>200 000 – 500 000 FCFA</option>
+        <option>500 000 – 1M FCFA</option>
+        <option>+ de 1M FCFA</option>
+      </select>
+    </div>
+    <button class="search-go">🔍 Rechercher</button>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section id="categories">
+  <div class="sec-header">
+    <div>
+      <div class="sec-tag">Catégories</div>
+      <h2 class="sec-title">Tous types de <em>propriétés</em></h2>
+    </div>
+    <a href="#" class="link-all">Toutes les catégories →</a>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-item reveal"><span class="cat-icon">🏢</span><div class="cat-name">Appartements</div><div class="cat-count">214 annonces</div></div>
+    <div class="cat-item reveal d1"><span class="cat-icon">🏡</span><div class="cat-name">Maisons & Villas</div><div class="cat-count">187 annonces</div></div>
+    <div class="cat-item reveal d2"><span class="cat-icon">🌿</span><div class="cat-name">Terrains</div><div class="cat-count">96 annonces</div></div>
+    <div class="cat-item reveal d3"><span class="cat-icon">💼</span><div class="cat-name">Bureaux</div><div class="cat-count">142 annonces</div></div>
+    <div class="cat-item reveal d4"><span class="cat-icon">🏛️</span><div class="cat-name">Salles de réunion</div><div class="cat-count">58 annonces</div></div>
+  </div>
+</section>
+
+<!-- PROPERTIES -->
+<section id="properties">
+  <div class="sec-header">
+    <div>
+      <div class="sec-tag">Annonces</div>
+      <h2 class="sec-title">Biens en <em>vedette</em></h2>
+      <p class="sec-sub">Découvrez notre sélection de biens immobiliers soigneusement choisis pour vous.</p>
+    </div>
+    <a href="#" class="link-all">Voir toutes les annonces →</a>
+  </div>
+  <div class="prop-grid">
+
+    <div class="prop-card reveal">
+      <div class="prop-thumb">
+        <img src="images/salle-reunion-2.jpg" alt="Salle de réunion">
+        <div class="prop-status">Location / Jour</div>
+        <div class="prop-fav">♡</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-cat">Salle de réunion</div>
+        <div class="prop-name">Salle de conférence Le Cercle — 20 personnes</div>
+        <div class="prop-loc">📍 Pointe-Noire, Centre</div>
+        <div class="prop-specs">
+          <span class="spec">👥 20 pers.</span>
+          <span class="spec">📽 Vidéoproj.</span>
+          <span class="spec">❄️ Climatisée</span>
+          <span class="spec">☕ Catering</span>
+        </div>
+        <div class="prop-foot">
+          <div class="prop-price">150 000 <small>FCFA/jour</small></div>
+          <a href="#contact" class="prop-action">Réserver →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-card reveal d1">
+      <div class="prop-thumb">
+        <img src="images/salle-reunion-3.jpg" alt="Grande salle">
+        <div class="prop-status">Location / Jour</div>
+        <div class="prop-fav">♡</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-cat">Salle de réunion</div>
+        <div class="prop-name">Grande salle — Séminaires & Formations</div>
+        <div class="prop-loc">📍 Pointe-Noire, Centre</div>
+        <div class="prop-specs">
+          <span class="spec">👥 30 pers.</span>
+          <span class="spec">📽 Projecteur</span>
+          <span class="spec">📶 WiFi HD</span>
+        </div>
+        <div class="prop-foot">
+          <div class="prop-price">200 000 <small>FCFA/jour</small></div>
+          <a href="#contact" class="prop-action">Réserver →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-card reveal d2">
+      <div class="prop-thumb">
+        <img src="images/salle-reunion-4.jpg" alt="Espace séminaire">
+        <div class="prop-status">Location / Jour</div>
+        <div class="prop-fav">♡</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-cat">Espace formation</div>
+        <div class="prop-name">Salle amphithéâtre — Événements corporate</div>
+        <div class="prop-loc">📍 Pointe-Noire</div>
+        <div class="prop-specs">
+          <span class="spec">👥 50 pers.</span>
+          <span class="spec">🔊 Sono</span>
+          <span class="spec">❄️ Climatisée</span>
+        </div>
+        <div class="prop-foot">
+          <div class="prop-price">300 000 <small>FCFA/jour</small></div>
+          <a href="#contact" class="prop-action">Réserver →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-card reveal">
+      <div class="prop-thumb">
+        <img src="images/bureau-desk-1.jpg" alt="Bureau direction">
+        <div class="prop-status">À louer</div>
+        <div class="prop-fav">♡</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-cat">Coworking</div>
+        <div class="prop-name">Open-space moderne — 20 postes</div>
+        <div class="prop-loc">📍 Centre des Affaires</div>
+        <div class="prop-specs">
+          <span class="spec">👥 20 postes</span>
+          <span class="spec">🅿️ Parking</span>
+          <span class="spec">📐 200 m²</span>
+        </div>
+        <div class="prop-foot">
+          <div class="prop-price">600 000 <small>FCFA/mois</small></div>
+          <a href="#contact" class="prop-action">Voir →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-card reveal d1">
+      <div class="prop-thumb">
+        <img src="images/salle-reunion-5.jpg" alt="Salle réunion premium">
+        <div class="prop-status">Location / Jour</div>
+        <div class="prop-fav">♡</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-cat">Salle de réunion</div>
+        <div class="prop-name">Salle executive — Direction & Board</div>
+        <div class="prop-loc">📍 Pointe-Noire, Plateau</div>
+        <div class="prop-specs">
+          <span class="spec">👥 12 pers.</span>
+          <span class="spec">📺 Écran 4K</span>
+          <span class="spec">☕ Catering</span>
+        </div>
+        <div class="prop-foot">
+          <div class="prop-price">180 000 <small>FCFA/jour</small></div>
+          <a href="#contact" class="prop-action">Réserver →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-card reveal d2">
+      <div class="prop-thumb">
+        <img src="images/bureau-desk-2.jpg" alt="Bureau privé">
+        <div class="prop-status">À louer</div>
+        <div class="prop-fav">♡</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-cat">Bureau</div>
+        <div class="prop-name">Bureau privé meublé tout équipé</div>
+        <div class="prop-loc">📍 Pointe-Noire, Centre</div>
+        <div class="prop-specs">
+          <span class="spec">👤 2–4 postes</span>
+          <span class="spec">📶 Fibre</span>
+          <span class="spec">🔒 Sécurisé</span>
+        </div>
+        <div class="prop-foot">
+          <div class="prop-price">250 000 <small>FCFA/mois</small></div>
+          <a href="#contact" class="prop-action">Voir →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="sec-header">
+    <div>
+      <div class="sec-tag">Galerie</div>
+      <h2 class="sec-title">Nos <em>espaces</em> en images</h2>
+      <p class="sec-sub">Découvrez l'ambiance et la qualité de nos espaces professionnels et salles de réunion.</p>
+    </div>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item large reveal">
+      <img src="images/appart-salon-1.jpg" alt="Salon premium">
+      <div class="gallery-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item reveal d1">
+      <img src="images/bureau-desk-1.jpg" alt="Bureau direction">
+      <div class="gallery-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item reveal d2">
+      <img src="images/bureau-desk-2.jpg" alt="Bureau meublé">
+      <div class="gallery-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item reveal d1">
+      <img src="images/appart-salon-2.jpg" alt="Salon moderne">
+      <div class="gallery-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item reveal d2">
+      <img src="images/salle-reunion-6.jpg" alt="Salle réunion">
+      <div class="gallery-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item reveal d3">
+      <img src="images/salle-reunion-7.jpg" alt="Salle formation">
+      <div class="gallery-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="images/salle-reunion-8.jpg" alt="Salle événement">
+      <div class="gallery-overlay"><span>🔍</span></div>
+    </div>
+    <div class="gallery-item reveal d1">
+      <img src="images/coworking-3.jpg" alt="Espace coworking">
+      <div class="gallery-overlay"><span>🔍</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <img src="images/salle-reunion-2.jpg" class="about-main-img" alt="Tholad Group">
+      <div class="about-badge">
+        <div class="bnum">12+</div>
+        <div class="btxt">Ans d'expertise</div>
+      </div>
+    </div>
+    <div>
+      <div class="about-stats reveal">
+        <div class="about-stat"><div class="about-stat-num">850+</div><div class="about-stat-label">Biens</div></div>
+        <div class="about-stat"><div class="about-stat-num">1200+</div><div class="about-stat-label">Clients</div></div>
+        <div class="about-stat"><div class="about-stat-num">320+</div><div class="about-stat-label">Transactions</div></div>
+        <div class="about-stat"><div class="about-stat-num">12+</div><div class="about-stat-label">Années</div></div>
+      </div>
+      <div class="sec-tag">Qui sommes-nous</div>
+      <h2 class="sec-title">L'immobilier <em>autrement</em>,<br>avec Tholad Group</h2>
+      <p class="sec-sub" style="margin-bottom:0;">
+        Fondée il y a plus de 12 ans, Tholad Group est une société immobilière de référence. Nous mettons notre expertise au service de vos projets de vente, d'achat, de location et de location de salles.
+      </p>
+      <div class="why-list">
+        <div class="why-row reveal">
+          <div class="why-num">01</div>
+          <div><div class="why-title">Biens vérifiés & certifiés</div><div class="why-desc">Chaque propriété est inspectée et validée par nos experts avant publication.</div></div>
+        </div>
+        <div class="why-row reveal d1">
+          <div class="why-num">02</div>
+          <div><div class="why-title">Processus rapide & transparent</div><div class="why-desc">De la visite à la signature, nous simplifions chaque étape pour vous.</div></div>
+        </div>
+        <div class="why-row reveal d2">
+          <div class="why-num">03</div>
+          <div><div class="why-title">Accompagnement personnalisé</div><div class="why-desc">Un conseiller dédié vous accompagne selon vos besoins et votre budget.</div></div>
+        </div>
+        <div class="why-row reveal d3">
+          <div class="why-num">04</div>
+          <div><div class="why-title">Expertise du marché local</div><div class="why-desc">12 ans de présence sur le marché pour des conseils précis et stratégiques.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="sec-header">
+    <div>
+      <div class="sec-tag">Services</div>
+      <h2 class="sec-title">Ce que nous <em>proposons</em></h2>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card reveal"><div class="svc-icon">🏠</div><div class="svc-title">Vente Immobilière</div><div class="svc-desc">Valorisation, mise en marché et accompagnement complet pour la vente de votre bien au meilleur prix.</div></div>
+    <div class="svc-card reveal d1"><div class="svc-icon">🔑</div><div class="svc-title">Location Longue Durée</div><div class="svc-desc">Gestion complète des locations résidentielles et commerciales avec suivi des paiements.</div></div>
+    <div class="svc-card reveal d2"><div class="svc-icon">📅</div><div class="svc-title">Location Courte Durée</div><div class="svc-desc">Espaces meublés et salles équipées pour séjours temporaires et déplacements professionnels.</div></div>
+    <div class="svc-card reveal d3"><div class="svc-icon">📊</div><div class="svc-title">Gestion Locative</div><div class="svc-desc">Confiez-nous votre patrimoine. Nous assurons l'administration, l'entretien et la rentabilité.</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="sec-header">
+    <div>
+      <div class="sec-tag">Témoignages</div>
+      <h2 class="sec-title">Ce que disent <em>nos clients</em></h2>
+    </div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Tholad Group m'a trouvé un appartement idéal en moins d'une semaine. Service impeccable, équipe très professionnelle et à l'écoute de mes besoins.</p>
+      <div class="testi-author"><div class="testi-av">MK</div><div><div class="testi-name">Marie-Claire K.</div><div class="testi-role">Locataire — Pointe-Noire</div></div></div>
+    </div>
+    <div class="testi-card reveal d1">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Excellent accompagnement pour l'achat de mon terrain. Toutes les démarches ont été gérées avec sérieux, rapidité et totale transparence.</p>
+      <div class="testi-author"><div class="testi-av">JB</div><div><div class="testi-name">Jean-Baptiste O.</div><div class="testi-role">Acquéreur — Brazzaville</div></div></div>
+    </div>
+    <div class="testi-card reveal d2">
+      <div class="testi-stars">★★★★☆</div>
+      <p class="testi-text">La salle de réunion était parfaite pour notre séminaire d'entreprise. Équipements modernes et emplacement idéal. Je recommande vivement.</p>
+      <div class="testi-author"><div class="testi-av">SN</div><div><div class="testi-name">Sandrine N.</div><div class="testi-role">Directrice RH — Pointe-Noire</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band" id="contact">
+  <div class="cta-text">
+    <div class="ctitle">Prêt à trouver votre espace idéal ?</div>
+    <div class="csub">Nos conseillers sont disponibles du lundi au samedi, de 8h à 18h.</div>
+  </div>
+  <div class="cta-actions">
+    <a href="tel:+242000000000" class="btn-white">📞 Nous appeler</a>
+    <a href="mailto:contact@tholadgroup.com" class="btn-outline-white">✉️ Nous écrire</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="images/logo.png" alt="Tholad Group">
+      <p class="footer-desc">Tholad Group est votre partenaire de confiance dans l'immobilier et la location depuis plus de 12 ans. Excellence, transparence et proximité.</p>
+      <div class="socials">
+        <a class="social-btn" href="#">in</a>
+        <a class="social-btn" href="#">f</a>
+        <a class="social-btn" href="#">𝕏</a>
+        <a class="social-btn" href="#">▶</a>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>Propriétés</h4>
+      <ul>
+        <li><a href="#">Appartements</a></li>
+        <li><a href="#">Maisons & Villas</a></li>
+        <li><a href="#">Terrains</a></li>
+        <li><a href="#">Bureaux</a></li>
+        <li><a href="#">Salles de réunion</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Vente immobilière</a></li>
+        <li><a href="#">Location longue durée</a></li>
+        <li><a href="#">Location courte durée</a></li>
+        <li><a href="#">Gestion locative</a></li>
+        <li><a href="#">Estimation gratuite</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Contact</h4>
+      <div class="f-contact-item"><span class="f-contact-icon">📍</span><span class="f-contact-text">Pointe-Noire, Congo<br>Quartier Central</span></div>
+      <div class="f-contact-item"><span class="f-contact-icon">📞</span><span class="f-contact-text">+242 00 000 0000</span></div>
+      <div class="f-contact-item"><span class="f-contact-icon">✉️</span><span class="f-contact-text">contact@tholadgroup.com</span></div>
+      <div class="f-contact-item"><span class="f-contact-icon">🕐</span><span class="f-contact-text">Lun – Sam : 8h00 – 18h00</span></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 <span>Tholad Group</span>. Tous droits réservés.</div>
+    <div class="footer-copy">Politique de confidentialité &nbsp;·&nbsp; Mentions légales</div>
+  </div>
+</footer>
+
+<script>
+/* ── Preloader ── */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('done');
+  }, 1800);
+});
+
+/* ── Slider ── */
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+let autoTimer;
+
+function goSlide(idx) {
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = (idx + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+  resetAuto();
+}
+function nextSlide() { goSlide(current + 1); }
+function prevSlide() { goSlide(current - 1); }
+function resetAuto() { clearInterval(autoTimer); autoTimer = setInterval(nextSlide, 5500); }
+resetAuto();
+
+/* ── Navbar scroll ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+/* ── Hamburger ── */
+document.getElementById('hamburger').addEventListener('click', () => {
+  const menu = document.getElementById('navMenu');
+  menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+  menu.style.flexDirection = 'column';
+  menu.style.position = 'absolute';
+  menu.style.top = '72px';
+  menu.style.left = '0';
+  menu.style.right = '0';
+  menu.style.background = '#fff';
+  menu.style.padding = '20px 5vw';
+  menu.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+  menu.style.zIndex = '800';
+});
+
+/* ── Scroll reveal ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('up'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ── Counters ── */
+const cobs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !e.target.dataset.done) {
+      e.target.dataset.done = 1;
+      const target = +e.target.dataset.t;
+      const dur = 1800;
+      const start = performance.now();
+      const tick = now => {
+        const p = Math.min((now - start) / dur, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        e.target.textContent = Math.floor(ease * target);
+        if (p < 1) requestAnimationFrame(tick);
+        else e.target.textContent = target;
+      };
+      requestAnimationFrame(tick);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => cobs.observe(el));
+</script>
+</body>
+</html>
